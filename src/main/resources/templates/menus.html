@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Proyecto 2</title>
+    <link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+    
+     <style>
+        .nav-sidebar li {
+            display: block !important;
+        }
+        
+        .sidebar .nav-sidebar > li {
+            display: block;
+        }
+        
+      
+		img {
+			width: 300px;
+		}
+	
+    </style>
+</head>
+
+<body id="page-top">
+	
+	
+<!--	OK-->
+    <div class="container">
+        <div class="row">
+            <h1 class="titulo_inicio">Página inicial</h1>
+        </div>
+        <header class="jumbotron my-4">
+            <h1 class="display-3">Bienvenido a Spring Ecommerce 2021</h1>
+            <p class="lead">Tu tienda de productos en Línea</p>
+        </header>
+
+       
+
+        <div class="row">
+            <div class="col" th:each="menu : ${menus}">
+<!--                <img src="http://placehold.it/350x260"-->
+<!--                    th:src="${#strings.isEmpty(plato.imagen)} ? 'default.jpg' : ${plato.imagen}">-->
+                <h5 th:text="${menu?.nombre ?: 'Nombre no disponible'}">Nombre</h5>
+<!--                <div class="price-text-color">-->
+<!--                    <span th:text="${#numbers.formatCurrency(plato.getPrecio())}">10</span>-->
+<!--                </div>-->
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8"></div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <table class="table table-hover">
+                <thead class="table-dark bg-info text-white">
+                    <tr>
+                        <th>Id</th>
+                        <th scope="col">Nombre</th>
+<!--                        <th scope="col">Precio</th>-->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${menus?.empty}">
+                        <td colspan="6">No hay menus</td>
+                    </tr>
+                    <tr th:each="menu : ${menus}">
+                        <td>
+							<a class="btn btn-primary btn-sm" th:href="@{/menus/{id}(id=${menu.id})}">
+                            	<span th:text="${menu.id}">Id</span>
+                            </a>
+                        </td>
+                        <td>
+                            <span th:text="${menu.nombre}"></span>
+                        </td>
+<!--                        <td>-->
+<!--                            <span th:text="${plato.precio}"></span>-->
+<!--                        </td>-->
+                    </tr>
+                </tbody>
+            </table>
+
+            <div th:if="${errorMessage}" class="alert alert-warning alert-dismissible fade show">
+                <p th:text="${errorMessage}"></p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+
+      
+    </div>
+
+
+
+<!--??-->
+<!--<div class="container-fluid" id="contenido">-->
+<!--		<div class="row">-->
+<!--			<div class="col-sm-3 col-md-2 sidebar">-->
+<!--				<h3>Categorías</h3>-->
+<!--				<ul class="nav nav-sidebar">-->
+<!--					<li th:each="categoria : ${categorias}"><a href="#"-->
+<!--						th:href="@{/?(idCategoria=${categoria.id})}"-->
+<!--						th:text="${categoria.nombre}">categoria</a></li>-->
+<!--				</ul>-->
+<!--			</div>-->
+
+<!--			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
+<!--				<h1>Openwebinars.net Shop</h1>-->
+<!--				<div class="row">-->
+<!--					<div class="col-sm-3" th:each="plato : ${platos}">-->
+<!--						<a href="#" th:href="@{/plato/{id}(id=${plato.id})}">-->
+<!--							<div class="col-item">-->
+<!--								<div class="photo">-->
+<!--									<img src="http://placehold.it/350x260"-->
+<!--										th:src="${#strings.isEmpty(plato.imagen)} ? 'http://placehold.it/350x260' : ${plato.imagen}"-->
+<!--										class="img-responsive" alt="a" />-->
+<!--								</div>-->
+<!--								<div class="info">-->
+<!--									<div class="row">-->
+<!--										<div class="price col-md-12">-->
+<!--											<h5 th:text="${plato.nombre}">Nombre</h5>-->
+											
+<!--										</div>-->
+									
+
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</a>-->
+<!--					</div>-->
+<!--				</div>-->
+
+<!--			</div>-->
+<!--		</div>-->
+
+<!--	</div>-->
+	
+    <script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+</body>
+
+</html>

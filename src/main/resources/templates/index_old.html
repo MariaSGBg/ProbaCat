@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Proyecto 2</title>
+	<link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+	<!--<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">-->
+	<!--<link rel="stylesheet" href="/css/style.css">-->
+</head>
+
+<body id="page-top">
+	<div class="container">
+		<div class="row">
+			<h1 class="titulo_inicio">Página inicial</h1>
+		</div>
+		<header class="jumbotron my-4">
+			<h1 class="display-3">Bienvenido a Spring Ecommerce 2021</h1>
+			<p class="lead">Tu tienda de productos en Línea</p>
+		</header>
+
+
+
+
+<div class="row">
+	<div class="col-sm-3 col-md-2 sidebar">
+		<h3 th:text="Categorías">Categorías</h3>
+		<ul class="nav nav-sidebar">
+			<li th:each="categoria : ${categorias}"><a href="#"
+				th:href="@{/?(idCategoria=${categoria.id})}"
+				th:text="${categoria.nombre}">categoria</a></li>
+		</ul>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col" th:each="plato : ${platosCat}">
+		
+		<img src="http://placehold.it/350x260"
+			th:src="${#strings.isEmpty(plato.imagen)} ? 'http://placehold.it/350x260' : ${plato.imagen}">
+	
+
+		<h5 th:text="${plato?.nombre ?: 'Nombre no disponible'}">Nombre</h5>
+		<div class="price-text-color">
+			<span
+				th:text="${#numbers.formatCurrency(plato.getPrecio())}">10</span>
+			
+		</div>
+	</div>
+</div>
+
+
+
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+			</div>
+			<div class="col-sm-2"></div>
+		</div>
+		<div class="row">
+
+			<table class="table table-hover">
+				<thead class="table-dark bg-info text-white  ">
+					<tr>
+						<th>Id</th>
+						<th scope="col"> Nombre </th>
+						<th scope="col"> Precio </th>
+
+					</tr>
+				</thead>
+				<tbody>
+<!--					<tr th:if="${platos.empty}">-->
+					<tr th:if="${platosCat.empty}">
+						<td colspan="6"> No hay platos</td>
+					</tr>
+					<tr th:each="plato : ${platos}">
+						<td>
+							<span th:text="${plato.id}">Id</span>
+						</td>
+						<td>
+							<span th:text="${plato.nombre}"></span>
+						</td>
+						<td>
+							<span th:text="${plato.precio}"></span>
+						</td>
+
+					</tr>
+				</tbody>
+			</table>
+
+			<div th:if="${errorMessage}" class="alert alert-warning alert-dismissible fade show">
+				<p th:text="${errorMessage}"></p>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		</div>
+		
+		<div class="row text-center">
+
+			<div class="col-lg-3 col-md-6 mb-4" th:each="plato: ${platos}">
+				<div class="card h-100">
+<!--					<img class="card-img-top"-->
+<!--						th:src="@{/images/{img} (img=${plato.imagen})} " alt="">-->
+
+<p th:text="@{/images/{img}(img=${plato.imagen})}"></p>
+<img class="card-img-top" th:src="@{/images/{img}(img=${plato.imagen})}" alt="">
+
+					<div class="card-body">
+						<p class="card-text" th:text="${plato.nombre}"></p>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/platos/{id}  (id=${plato.id})  }" class="btn btn-success">Ver
+							producto</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
+		
+	</div>
+	</div>
+	<!--	<script src="/webjars/jquery/jquery.min.js"></script>-->
+	<!--	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>-->
+	<script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+	<script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

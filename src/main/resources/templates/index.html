@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Proyecto 2</title>
+	<link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+
+	<style>
+		.nav-sidebar li {
+			display: block !important;
+		}
+
+		.sidebar .nav-sidebar>li {
+			display: block;
+		}
+
+
+		img {
+			width: 300px;
+		}
+		
+		.cat {
+			text-decoration: none;
+			padding-left: 10px;
+		}
+		
+		.listcat:hover {
+			background-color: beige;
+		}
+	</style>
+</head>
+
+<body id="page-top">
+
+
+	<!--	OK-->
+	<div class="container">
+		<div class="row">
+			<h1 class="titulo_inicio">Página inicial</h1>
+		</div>
+		<header class="jumbotron my-4">
+			<h1 class="display-3">Bienvenido a Spring Ecommerce 2021</h1>
+			<p class="lead">Tu tienda de productos en Línea</p>
+		</header>
+
+		<div class="row">
+
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="#">Navbar</a>
+					<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+						data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+						aria-expanded="false" aria-label="Toggle navigation">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" aria-current="page" href="#">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Menús</a>
+							</li>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+									data-bs-toggle="dropdown" aria-expanded="false">
+									Categorías
+								</a>
+								<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+									<!--									<li><a class="dropdown-item" href="#">Action</a></li>-->
+									<!--									<li><a class="dropdown-item" href="#">Another action</a></li>-->
+									<!--									<li>-->
+									<!--										<hr class="dropdown-divider">-->
+									<!--									</li>-->
+									<!--									<li><a class="dropdown-item" href="#">Something else here</a></li>-->
+
+<!--									<li  th:each="categoria : ${categorias}">-->
+<!--										<a href="#platoslist" th:href="@{/platos?(idCategoria=${categoria.id})}"-->
+<!--											th:text="${categoria.nombre}">categoria</a>-->
+<!--									</li>-->
+
+
+
+
+
+
+<!--					The main issue is that Thymeleaf's th:href attribute is overriding the href attribute completely, -->
+<!--					which causes the #platoslist fragment to be ignored. To fix this, you need to combine both the -->
+<!--					URL with the query parameter and the fragment in a way that Thymeleaf processes correctly.-->
+					
+<!--					You can achieve this by using a th:attr attribute to concatenate the URL with the fragment:-->
+
+<li th:each="categoria : ${categorias}" class="listcat">
+    <a th:attr="href=@{/platos(idCategoria=${categoria.id})} + '#platoslist'" th:text="${categoria.nombre}" class="cat">categoria</a>
+</li>
+
+<!--						This way, Thymeleaf will generate the URL with the query parameter and append the #platoslist fragment,-->
+<!--					    allowing the browser to jump to the div with the id="platoslist" when an item is selected.-->
+
+
+
+								</ul>
+							</li>
+
+						</ul>
+						<form class="d-flex" th:action="@{/platos/search}" method="post">
+							  <input type="hidden" th:name="idCategoria" th:value="${idCategoria}">
+							<input class="form-control me-2" type="search" name="nombre" placeholder="Search" aria-label="Search">
+							<button class="btn btn-outline-success" type="submit">Search</button>
+						</form>
+					</div>
+				</div>
+			</nav>
+
+
+		</div>
+
+
+		<div class="row">
+			<div class="col-sm-3 col-md-2 sidebar">
+				<h3 th:text="Categorías">Categorías</h3>
+				<!--                <ul class="nav nav-sidebar">-->
+				<!--                    <li th:each="categoria : ${categorias}">-->
+				<!--                        <a href="#" th:href="@{/?(idCategoria=${categoria.id})}" th:text="${categoria.nombre}">categoria</a>-->
+				<!--                    </li>-->
+				<!--                </ul>-->
+
+
+				<ul class="list-group">
+					<li class="list-group-item" th:each="categoria : ${categorias}">
+						<a href="#" th:href="@{/platos?(idCategoria=${categoria.id})}"
+							th:text="${categoria.nombre}">categoria</a>
+					</li>
+
+				</ul>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col" th:each="plato : ${platosCat}">
+				<img src="http://placehold.it/350x260"
+					th:src="${#strings.isEmpty(plato.imagen)} ? 'default.jpg' : ${plato.imagen}">
+				<h5 th:text="${plato?.nombre ?: 'Nombre no disponible'}">Nombre</h5>
+				<div class="price-text-color">
+					<span th:text="${#numbers.formatCurrency(plato.getPrecio())}">10</span>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8"></div>
+			<div class="col-sm-2"></div>
+		</div>
+
+		<div class="row">
+			<table class="table table-hover">
+				<thead class="table-dark bg-info text-white">
+					<tr>
+						<th>Id</th>
+						<th scope="col">Nombre</th>
+						<th scope="col">Precio</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${platosCat?.empty}">
+						<td colspan="6">No hay platos</td>
+					</tr>
+					<tr th:each="plato : ${platos}">
+						<td>
+							<span th:text="${plato.id}">Id</span>
+						</td>
+						<td>
+							<span th:text="${plato.nombre}"></span>
+						</td>
+						<td>
+							<span th:text="${plato.precio}"></span>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div th:if="${errorMessage}" class="alert alert-warning alert-dismissible fade show">
+				<p th:text="${errorMessage}"></p>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		</div>
+
+		<div class="row text-center" id="platoslist">
+			<div class="col-lg-3 col-md-6 mb-4" th:each="plato: ${platos}">
+				<div class="card h-100">
+					<img class="card-img-top" th:src="@{/images/{img}(img=${plato.imagen})}" alt="">
+					<div class="card-body">
+						<p class="card-text" th:text="${plato.nombre}"></p>
+					</div>
+					<div class="card-footer">
+						<a th:href="@{/platos/{id}(id=${plato.id})}" class="btn btn-success">Ver producto</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!--??-->
+	<!--<div class="container-fluid" id="contenido">-->
+	<!--		<div class="row">-->
+	<!--			<div class="col-sm-3 col-md-2 sidebar">-->
+	<!--				<h3>Categorías</h3>-->
+	<!--				<ul class="nav nav-sidebar">-->
+	<!--					<li th:each="categoria : ${categorias}"><a href="#"-->
+	<!--						th:href="@{/?(idCategoria=${categoria.id})}"-->
+	<!--						th:text="${categoria.nombre}">categoria</a></li>-->
+	<!--				</ul>-->
+	<!--			</div>-->
+
+	<!--			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">-->
+	<!--				<h1>Openwebinars.net Shop</h1>-->
+	<!--				<div class="row">-->
+	<!--					<div class="col-sm-3" th:each="plato : ${platos}">-->
+	<!--						<a href="#" th:href="@{/plato/{id}(id=${plato.id})}">-->
+	<!--							<div class="col-item">-->
+	<!--								<div class="photo">-->
+	<!--									<img src="http://placehold.it/350x260"-->
+	<!--										th:src="${#strings.isEmpty(plato.imagen)} ? 'http://placehold.it/350x260' : ${plato.imagen}"-->
+	<!--										class="img-responsive" alt="a" />-->
+	<!--								</div>-->
+	<!--								<div class="info">-->
+	<!--									<div class="row">-->
+	<!--										<div class="price col-md-12">-->
+	<!--											<h5 th:text="${plato.nombre}">Nombre</h5>-->
+
+	<!--										</div>-->
+
+
+	<!--									</div>-->
+	<!--								</div>-->
+	<!--							</div>-->
+	<!--						</a>-->
+	<!--					</div>-->
+	<!--				</div>-->
+
+	<!--			</div>-->
+	<!--		</div>-->
+
+	<!--	</div>-->
+
+
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+		integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+		crossorigin="anonymous"></script>
+
+	<script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+	<script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+</body>
+
+</html>

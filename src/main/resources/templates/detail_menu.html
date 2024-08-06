@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Proyecto 2</title>
+	<link href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+		img {
+			width: 300px;
+		}
+	</style>
+
+</head>
+
+<body id="page-top">
+	<div class="container" id="contenido">
+		<div class="row">
+			<div class="col-md-4">
+				<!--				th:src="${#strings.isEmpty(plato.imagen)} ? 'default.jpg' : ${plato.imagen}"-->
+				<!--				<img src="http://placehold.it/400x400" alt=""-->
+				<!--					th:src="${#strings.isEmpty(plato.imagen)} ? @{/images/default.jpg} : @{/images/{img}(img=${plato.imagen})}"-->
+				<!--					class="img-responsive" />-->
+			</div>
+			<div class="col-md-8">
+				<h2 class="product-name" th:text=${menu.nombre}>Nombre del
+					menu</h2>
+				<div class="product-price">
+
+				</div>
+				<div>
+					<!--					<span th:each="ingrediente : ${plato.getIngredientes()}">-->
+					<!--						<a th:text="${ingrediente.nombre}"  -->
+					<!--									th:href="@{/ingredientes/{id} (id=${ingrediente.id})}" class="card-text"-->
+					<!--									</a>-->
+
+					<span th:each="i, iterStat:${menu.platos}">
+						<span th:text="${i.plato.nombre}"> Platos </span>
+						<span th:if="${!iterStat.last}">,</span>
+					</span>
+				</div>
+
+			</div>
+
+
+			<!--			<div class="container mt-4">-->
+
+			<!--				<ul class="nav nav-tabs" id="myTab" role="tablist">-->
+			<!--					<li class="nav-item" role="presentation">-->
+			<!--						<a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab"-->
+			<!--							aria-controls="home" aria-selected="true">Ingredientes</a>-->
+			<!--					</li>-->
+			<!--					<li class="nav-item" role="presentation">-->
+			<!--						<a class="nav-link" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab"-->
+			<!--							aria-controls="profile" aria-selected="false">Profile</a>-->
+			<!--					</li>-->
+			<!--					<li class="nav-item" role="presentation">-->
+			<!--						<a class="nav-link" id="contact-tab" data-bs-toggle="tab" href="#contact" role="tab"-->
+			<!--							aria-controls="contact" aria-selected="false">Contact</a>-->
+			<!--					</li>-->
+
+			<!--				</ul>-->
+
+
+			<!--				<div class="tab-content" id="myTabContent">-->
+			<!--					<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">-->
+			<!--						<span th:each="i, iterStat:${plato.ingredientes}">-->
+			<!--						<span th:text="${i.nombre}"> Ingredientes </span>-->
+			<!--						<span th:if="${!iterStat.last}">,</span>-->
+			<!--					</span>-->
+			<!--					</div>-->
+			<!--					<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">-->
+			<!--						Profile content goes here.-->
+			<!--					</div>-->
+			<!--					<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">-->
+			<!--						Contact content goes here.-->
+			<!--					</div>-->
+			<!--				</div>-->
+			<!--			</div>-->
+
+
+
+
+
+		</div>
+		<hr>
+		<h3 class="product-name" th:text=${menu.nombre}>Nombre del
+			menu</h3>
+		<table>
+			<tr th:each="plato:${menu.platos}">
+				<td>
+					<span th:text="${plato.dia}"></span>
+					<span class="badge bg-secondary">Primer plato</span>
+				</td>
+				<td th:text="${plato.plato.nombre}"> Platos </td>
+				<td><a th:href="@{/menus/cambiarplato}">Cambiar</a></td>
+			</tr>
+		</table>
+
+		<!--		<div class="row">-->
+		<!--			<div class="col-md-12">-->
+		<!--				<h3>Características</h3>-->
+		<!--				<p th:text="${producto.descripcion}">Descripción</p>-->
+		<!--			</div>-->
+		<!--		</div>-->
+	</div>
+
+
+
+	<script src="/webjars/jquery/3.7.1/jquery.min.js"></script>
+	<script src="/webjars/bootstrap/5.3.3/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
